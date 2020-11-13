@@ -1,0 +1,187 @@
+
+{% extends "layout.html" %}
+
+{% block css %}
+  <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content1 %}
+    <div id="item" style="float:left;width:100%">
+        <div id="top" style="float:left;width: 100%;">
+            <div style="float:left;">
+                <img src="{{the_env_static_string}}static/icon/icon.png" style="padding-left: 10px;padding-right: 10px;" width="50" height="50" >{% if DEBUG == 'true' %} {{the_mobile_web}} -{% endif %}<a href="/">{{the_site_string}}</a>
+            </div>
+            <div style="float:right;">
+				WEB PAGE
+            </div>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+              <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+              </div>
+            {% endfor %}
+        {% endif %}
+        <p id="head" class="title" style="float:left;width: 100%;text-align:center;clear: both;">
+            <h1><img src="{{the_env_static_string}}static/icon/icon.png" style="padding-right: 20px;" width="75" height="75">{{the_title_string}}</h1>
+
+        {% block content %}
+
+            <div id="form" style="position: absolute;left: 50px;">
+
+                <center><h1>CLOUD & ONPREM SERVERLESS BIAN</h1></center>
+                <center><h2>Generate a Micro-service Bian project & code</h2></center>
+
+            <div id="details" style="width:100%;">
+
+                <div id="detailsx" style="left: 150px;">
+
+                    <ul style="width:45%; float:left;"><b>Code Generation:</b>create projects from project template<p/>
+                        <li>Web UI and CLI tools generate full Microservice project scaffolding</li>
+                        <li>Standard Project structure and packaging</li>
+                        <li>All project dependencies included</li>
+                        <li>Sample bank developer code</li>
+                        <li>Logging & tracing tools</li>
+                        <li>Api testing and load tools</li>
+                        <li>Hybrid cloud deployment support</li>
+                        <li>Devops - Full compliance to ci/cd pipeline</li>
+                        <li>Docker container setup</li>
+                        <li>IDE & GIT compatible</li>
+                        <li>12 factor compliant</li>
+                    </ul>
+
+                    <ul style="width:45%; float:left;"><b>Service Development:</b> Leverage cloud ready open source frameworks to simplify, standardize and customize development:<p/>
+                        <li>Web filters for request Analytics</li>
+                        <li>Request monitoring</li>
+                        <li>Request tracing and correlation</li>
+                        <li>Data mapping and obfuscation</li>
+                        <li>Rest, Soap, RPC clients</li>
+                        <li>JWT Security</li>
+                        <li>Resiliency – Circuit Breaker</li>
+                        <li>Logging & Exception Handling</li>
+                        <li>Cloud & ONPREM provider support</li>
+                        <li>Stateless architecture</li>
+                        <li>Orchestration & SAGA</li>
+                        <li>Service Info & Health endpoints</li>
+                    </ul>
+                </div>
+            </div>
+
+
+                <form  method = "POST" action = "uploader" enctype = "multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div style=" width: 100%;">
+                        <h2><label>Project details</label><br></h2>
+                        <h3><label for="pname">Project name</label></h3>
+                        <input type="text" id="pname" name="pname" size="150"><br>
+                        <h3><label for="sname">Service name</label></h3>
+                        <input type="text" id="sname" name="sname" size="150"><br>
+                        <h3><label for="tname">Tags</label></h3>
+                        <input type="text" id="tname" name="tname" size="150"><br>
+                    </div>
+                    <p/>
+                    <div id="dtl" style=" width: 100%;">
+                        <div style="float: left; width: 50%;">
+                            <h2>Versions</h2>
+                            <h3>Python Version</h3>
+                            <select name="py_id" id="py_id">
+                                <option value="0" disabled selected>please select a Python Version</option>
+                                {% for py in pys | sort(attribute='name') %}
+                                <option value="{{ py.id }}">{{ py.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <h3>Flask Version</h3>
+                            <select name="fl_id" id="fl_id">
+                                <option value="0" disabled selected>please select a Flask Version</option>
+                                {% for fl in fls | sort(attribute='name') %}
+                                <option value="{{ fl.id }}">{{ fl.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <h3>Bian Version</h3>
+                            <select name="bn_id" id="bn_id">
+                                <option value="0" disabled selected>please select a Bian version</option>
+                                {% for bn in bns | sort(attribute='name') %}
+                                <option value="{{ bn.id }}">{{ bn.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div style="float: right; width: 50%;">
+                            <h2>Project Properties</h2>
+                            <h3>Provider</h3>
+                            <select name="pr_id" id="pr_id">
+                                <option value="0" disabled selected>please select a Provider</option>
+                                {% for pr in prs | sort(attribute='name') %}
+                                <option value="{{ pr.id }}">{{ pr.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <h3>Tech Stack</h3>
+                            <select name="ts_id" id="ts_id">
+                                <option value="0" disabled selected>please select a Tech Stack</option>
+                                {% for ts in tss | sort(attribute='name') %}
+                                <option value="{{ ts.id }}">{{ ts.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <h3>Project Type</h3>
+                            <select name="pt_id" id="pt_id">
+                                <option value="0" disabled selected>please select a Project Type</option>
+                                {% for pt in pts | sort(attribute='name') %}
+                                <option value="{{ pt.id }}">{{ pt.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <h3>Load a swagger file :</h3>
+                            <input type = "file" required name = "file" />
+                        </div>
+                    </div>
+                    <div id="dep" style=" width: 100%;clear:both;padding-top:20px">
+                        <div style="float: left; width: 50%;">
+                            <h2>Dependencies</h2>
+                            <h3>Client Protocol Type</h3>
+                            <select name="cl_id" id="cl_id" multiple size="3">
+                                {% for cl in cls | sort(attribute='name') %}
+                                <option value="{{ cl.id }}">{{ cl.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <h3>Add python packages to your project</h3>
+                            <select name="pk_id" id="pk_id" multiple size="6">
+                                {% for pk in pks | sort(attribute='name') %}
+                                <option value="{{ pk.id }}">{{ pk.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div style="float: right; width: 50%;">
+                            <h2>Bian Properties</h2>
+                            <h3>Service Domain</h3>
+                            <select name="sd_id" id="sd_id">
+                                <option value="0" disabled selected>please select a Service Domain</option>
+                                {% for sd in sds | sort(attribute='name') %}
+                                <option value="{{ sd.id }}">{{ sd.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <h3>Service Type</h3>
+                            <select name="st_id" id="st_id">
+                                <option value="0" disabled selected>please select a Service Type</option>
+                                {% for st in sts | sort(attribute='name') %}
+                                <option value="{{ st.id }}">{{ st.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <h3>Load a Customization file :</h3>
+                            <input type = "file" name = "sfile" />
+                        </div>
+                    </div>
+                    <div style="clear:both;padding:20px">
+                        <center><font><input type = "submit" value="Generate Project" style="padding:10px;background:green"/></font></center>
+                    </div>
+                </form>
+            </div>
+        {% endblock %}
+
+
+
+    </div>
+    <div id="results" style="width:100%;padding:20px;">
+    </div>
+{% endblock %}
+

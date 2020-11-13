@@ -1,0 +1,27 @@
+# build your docker
+1. go to https://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html
+2. open the AMI – amzn-ami-hvm-2017.03.1.20170812-x86_64-gp2
+3. launch an instance on ec2
+3.1 install docker
+sudo yum update -y
+sudo yum -y install docker
+sudo service docker start
+sudo chmod 666 /var/run/docker.sock
+sudo usermod -a -G docker ec2-user
+docker info
+docker ps
+3.2 create docker image from base dir :
+clean dos syntex :  sed $'s/\r$//' start.sh.old > start.sh
+docker build -f docker/Dockerfile -t halo .
+Use the command [docker exec -it <container id> /bin/bash] to get a bash shell in the container.
+3.3 Run [docker images] command to verify that the image was created correctly.
+3.4 test the instance and check "healthCheckUri" is working:
+docker run -t -i -p 80:80 -e AWS_ACCESS_KEY_ID=abc -e AWS_SECRET_ACCESS_KEY=def halo
+3.5 docker stop <container_id>
+4. get credentials: $(aws ecr get-login --no-include-email --region us-east-1)
+5. create repository: aws ecr create-repository --repository-name halo_service_domain
+6. tag image with service name and imagetag: docker tag e9ae3c220b23 aws_account_id.dkr.ecr.region.amazonaws.com/halo_service_domain:halocontactdialogueservice-latest
+7. push image to repository: docker push aws_account_id.dkr.ecr.region.amazonaws.com/halo_service_domain:halocontactdialogueservice-latest
+8.
+9.
+

@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC '-//WAPFORUM//DTD XHTML Mobile 1.0//EN'
+'http://www.wapforum.org/DTD/xhtml-mobile10.dtd'> 
+<html xmlns='http://www.w3.org/1999/xhtml'  lang="en">
+<head>
+    {% load i18n %}
+    <title>{{the_site_string}}</title>
+</head>
+<body>
+    <div id="item" style="float:left;width:100%">
+        <div id="top" style="float:left;width: 100%;">
+            <div style="float:left;">
+                <img src="{{the_env_static_string}}static/icon/icon.png" style="padding-left: 10px;padding-right: 10px;" width="50" height="50" >{% if DEBUG == 'true' %} {{the_mobile_web}} -{% endif %}<a href="/">{{the_site_string}}</a>
+            </div>
+            <div style="float:right;">
+				ERROR PAGE
+            </div>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+              <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+              </div>
+            {% endfor %}
+        {% endif %}
+        <div id="head" class="title" style="float:left;width: 100%;text-align:center;clear: both;">
+            <h1><img src="{{the_img_url}}" style="padding-right: 20px;" width="75" height="75">{{the_title_string}}</h1>
+
+
+
+        </div>
+
+        <div id="results" style="width: 100%;text-align:center;padding:20px;">
+
+            <h3>Sorry, Server Error.</h3>
+
+        </div>
+    </div>
+    <div   style="width:100%;clear: both;padding-top:20px;">
+        
+    </div>
+
+</body>
+</html>

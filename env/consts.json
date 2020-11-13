@@ -1,0 +1,9 @@
+{
+    "FLASKS" : [ "1.0.1", "1.0.2", "1.1.0", "1.1.1", "1.1.2"],
+    "BIANS" : [ "1.1","2.0", "3.0"],
+    "STACKS" : [ "Linux1", "Linux2","Windows","OS"],
+    "APIS" : [ "Production", "Distribution", "Other"],
+    "PKGS" : [ "Linux1", "Linux2", "Windows"],
+    "STYPES" : [ "Master", "Behavior Qualifier","Qualifier Type","Other"],
+    "PTYPES" : [ "Rest","Soap", "Rpc"]
+}

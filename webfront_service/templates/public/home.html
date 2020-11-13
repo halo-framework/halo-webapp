@@ -1,0 +1,38 @@
+
+{% extends "layout.html" %}
+{% block content1 %}
+<div id="item" style="float:left;width:100%">
+        <div id="top" style="float:left;width: 100%;">
+            <div style="float:left;">
+                <img src="{{the_env_static_string}}static/icon/icon.png" style="padding-left: 10px;padding-right: 10px;" width="50" height="50" >{% if DEBUG == 'true' %} {{the_mobile_web}} -{% endif %}<a href="/">{{the_site_string}}</a>
+            </div>
+            <div style="float:right;">
+				WEB PAGE
+            </div>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+              <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+              </div>
+            {% endfor %}
+        {% endif %}
+        <div id="head" class="title" style="float:left;width: 100%;text-align:center;clear: both;">
+            <h1><img src="{{the_env_static_string}}static/icon/icon.png" style="padding-right: 20px;" width="75" height="75">{{the_title_string}}</h1>
+
+            {% block content %}
+            <p><h2>{{the_content}}</h2></p>
+            {% endblock %}
+
+        </div>
+    </div>
+    <div id="results" style="width:100%;padding:20px;">
+
+
+
+    </div>
+{% endblock %}
+

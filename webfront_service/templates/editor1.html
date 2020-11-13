@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#swagger-editor {
+  font-size: 1.3em;
+}
+
+.container {
+  height: 100%;
+  max-width: 880px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#editor-wrapper {
+  height: 100%;
+  border: 1em solid #000;
+  border: none;
+}
+
+.Pane2 {
+  overflow-y: scroll;
+}
+</style>
+    <script src="/static/swagger-editor-bundle.js"></script>
+    <script src="/static/swagger-editor-standalone-preset.js"></script>
+
+    <script>
+    window.onload = function() {
+        // Webpack outputs library variables with file-names-like-this
+        window["SwaggerEditorBundle"] = window["SwaggerEditorBundle"] || window["swagger-editor-bundle"]
+        window["SwaggerEditorStandalonePreset"] = window["SwaggerEditorStandalonePreset"] || window["swagger-editor-standalone-preset"]
+        // Build a system
+        const editor = SwaggerEditorBundle({
+          dom_id: '#swagger-editor',
+          layout: 'StandaloneLayout',//'EditorLayout',
+          presets: [
+            SwaggerEditorStandalonePreset
+          ],
+          url: 'http://rackerlabs.github.io/wadl2swagger/openstack/swagger/dbaas.json',
+          swagger2GeneratorUrl: null,
+          oas3GeneratorUrl: null,
+          swagger2ConverterUrl: 'https://converter.swagger.io/api/convert',
+        });
+
+        window.editor = editor;
+    };
+
+    function generate() {
+        //alert("generate!");
+        const content = window.localStorage.getItem('swagger-editor-content');
+        fetch('/loc/gen', {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({swagger: content})
+        }).then(res=>res.json())
+          .then(res => console.log(res));
+    };
+
+    function validateForm() {
+      const content = window.localStorage.getItem('swagger-editor-content');
+      if (content == "") {
+        alert("Swagger must be filled out");
+        return false;
+      }
+      var body = JSON.stringify(content)
+      document.forms["sForm"]["swagger"].value = body;
+    }
+    </script>
+</head>
+<body>
+<div style="padding:1px">
+    <form  name="sForm" method = "POST" action = "/loc/gen" enctype = "multipart/form-data" onsubmit = "return validateForm()">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <input type="hidden" name="swagger" id="swagger" value=""/>
+        <input type="hidden" name="engine" id="engine" value="mycode"/>
+        <div style="clear:both;padding:1px;background:yellow">
+            <center><font><input type = "submit" value="Click to Validate & Generate Bian Microservice Project" style="padding:1px;"/></font></center>
+        </div>
+    </form>
+    <div id="swagger-editor"></div>
+</div>
+</body>
+</html>

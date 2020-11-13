@@ -1,0 +1,83 @@
+
+{% extends "layout.html" %}
+{% block content1 %}
+<div id="item" style="float:left;width:100%">
+        <div id="top" style="float:left;width: 100%;">
+            <div style="float:left;">
+                <img src="{{the_env_static_string}}static/icon/icon.png" style="padding-left: 10px;padding-right: 10px;" width="50" height="50" >{% if DEBUG == 'true' %} {{the_mobile_web}} -{% endif %}<a href="/">{{the_site_string}}</a>
+            </div>
+            <div style="float:right;">
+				WEB PAGE
+            </div>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+              <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+              </div>
+            {% endfor %}
+        {% endif %}
+        <p id="head" class="title" style="float:left;width: 100%;text-align:center;clear: both;">
+            <h1><img src="{{the_env_static_string}}static/icon/icon.png" style="padding-right: 20px;" width="75" height="75">{{the_title_string}}</h1>
+
+            {% block content %}
+            <h2>select a service domain to generate a swagger file :
+
+            <form method="POST" action="service">
+
+                <select name="sd_id" id="sd_id">
+                    <option value="0" disabled selected>please select a service domain</option>
+                    {% for sd in sds | sort(attribute='name') %}
+                    <option value="{{ sd.id }}">{{ sd.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <input type="submit" required value="Submit">
+            </form></h2>
+
+            <p/>
+            <h2>select a service domain to generate a project :
+
+            <form method="POST" action="page">
+
+                <select name="sd_id" id="sd_id">
+                    <option value="0" disabled selected>please select a service domain</option>
+                    {% for sd in sds | sort(attribute='name') %}
+                    <option value="{{ sd.id }}">{{ sd.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <input type="submit" required value="Submit">
+            </form></h2>
+
+            <p/>
+
+            <h2>or load a swagger file :
+            <form  method = "POST" action = "uploader"
+                 enctype = "multipart/form-data">
+                 <input type = "file" required name = "file" />
+                <p/>
+                <label for="pname">Project name:</label><br>
+                <input type="text" id="pname" name="pname"><br>
+
+                <input type = "submit" value="Submit"/>
+              </form></h2>
+
+            <p/>
+
+            <h2>to generate micro service project & code</h2>
+            {% endblock %}
+
+
+        </div>
+    </div>
+    <div id="results" style="width:100%;padding:20px;">
+
+
+
+    </div>
+{% endblock %}
+

@@ -1,0 +1,57 @@
+
+{% extends "layout.html" %}
+{% block content1 %}
+<div id="item" style="float:left;width:100%">
+        <div id="top" style="float:left;width: 100%;">
+            <div style="float:left;">
+                <img src="{{the_env_static_string}}static/icon/icon.png" style="padding-left: 10px;padding-right: 10px;" width="50" height="50" >{% if DEBUG == 'true' %} {{the_mobile_web}} -{% endif %}<a href="/">{{the_site_string}}</a>
+            </div>
+            <div style="float:right;">
+				WEB PAGE
+            </div>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+              <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+              </div>
+            {% endfor %}
+        {% endif %}
+        <div id="head" class="title" style="float:left;width: 100%;text-align:center;clear: both;">
+            <h1><img src="{{the_env_static_string}}static/icon/icon.png" style="padding-right: 20px;" width="75" height="75">{{the_title_string}}</h1>
+
+            {% block content %}
+            <p><h2>service domain : {{ sd.sd_name }} </h2></p>
+            <p/>
+            <div id="doc" class="title" style="float:left;width: 100%;text-align:center;clear: both;border:5px solid red">
+                documentation
+            </div>
+            <div id="code" class="title" style="float:left;width: 100%;text-align:center;clear: both;border:5px solid red">
+                code
+            </div>
+            <div id="api" class="title" style="float:left;width: 100%;text-align:center;clear: both;border:5px solid red">
+                apis
+            </div>
+            <div id="admin" class="title" style="float:left;width: 100%;text-align:center;clear: both;border:5px solid red">
+                admin
+            </div>
+            <div id="monitor" class="title" style="float:left;width: 100%;text-align:center;clear: both;border:5px solid red">
+                monitor
+            </div>
+            <div id="analytics" class="title" style="float:left;width: 100%;text-align:center;clear: both;border:5px solid red">
+                analytics
+            </div>
+            {% endblock %}
+
+        </div>
+    </div>
+    <div id="results" style="width:100%;padding:20px;">
+
+
+
+    </div>
+{% endblock %}
+

@@ -1,0 +1,62 @@
+{
+	"stages": ["dev","tst","prd"],
+	"application_name": "halo_app",
+	"alias": "",
+	"provider_name": "aws",
+	"region": "us-east-1",
+	"profile_name": "default",
+	"deploy_tool": "sls",
+	"mservices": {
+		"halo_function": {
+			"type": "south",
+			"url": "http://127.0.0.1:5000",
+			"overwrite_if_exists": true,
+			"runtime": "python3.7",
+			"framework": "flask",
+			"extra_permissions": [],
+			"base_class": "AbsBianMixin",
+			"base_lib": "halo_bian.bian.abs_bian_srv",
+			"libs": [],
+			"urls": "",
+			"apis": [
+					
+					{
+						"name": "Recaptcha",
+						"url": "https://www.google.com/recaptcha/api/siteverify",
+						"type": "rest"
+					}
+				],
+			"db":{
+				"db_class_name":"halo_bian.bian.db.AbsBianDbMixin"
+			},
+			"dev": {
+				"s3_bucket": "zappa-dlbjcikdv"
+			},
+			"tst": {
+				"s3_bucket": "zappa-wc1r3r3nn"
+			},
+			"prd": {
+				"s3_bucket": "zappa-20bu57w5v"
+			},
+			"plugins":[
+				{
+					"class": "halo_bian.bian.plugins.halo_bian_defs_plugin.BianPlugin",
+					"type": "defs"
+				},
+				{
+					"class": "halo_bian.bian.plugins.halo_bian_mixin_plugin.BianPlugin",
+					"type": "mixin"
+				},
+				{
+					"class": "halo_bian.bian.plugins.halo_bian_err_plugin.BianPlugin",
+					"type": "err"
+				}
+
+			],
+			"record": {
+				"name":"",
+				"id":""
+			}
+		}
+	}
+}
