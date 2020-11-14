@@ -51,14 +51,8 @@
         <span style="display: inline-block; width: 180px; background: #6af; vertical-align: top;">
             <button id="myBtn1" style="width: 170px;font-size: 9px;">Load BIAN Swagger</button>
             <button id="myBtn2" style="width: 170px;font-size: 9px;">Extend BIAN Swagger</button>
+            <button id="myBtn3" style="width: 170px;font-size: 9px;">Generate BIAN Project</button>
         </span>
-        <form  name="sForm" method = "POST" action = "/loc/gen" enctype = "multipart/form-data" onsubmit = "return validatesForm()">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <input type="hidden" name="swagger" id="swagger" value=""/>
-            <input type="hidden" name="engine" id="engine" value="halo-flask"/>
-            <input type="hidden" name="name" id="swagger_name" value=""/>
-            <input id="myBtn3" style="width: 170px;font-size: 9px;" type = "submit" value="Generate BIAN Project"/>
-        </form>
     </div>
 
   <div id="swagger-editor"></div>
@@ -137,14 +131,22 @@
       <!-- Modal content -->
       <div class="modalx-content">
         <span id="span3" class="close">&times;</span>
-          <p>select Language/Platform:
-          <select name="bianApiVer" id="bianApiVer3">
-              <option value="1">Flask</option>
-              <option value="2">.NET</option>
-            </select>
-        </p>
           <p/>
-          <button id="genBtn" style="width: 170px;" onclick="genClose()">Validate & Generate Project</button>
+          <form  name="sForm" method = "POST" action = "/loc/gen" enctype = "multipart/form-data" onsubmit = "return validatesForm()">
+              <p>select Language/Platform:
+            <select name="engine" id="engine">
+              <option value="halo-flask" selected>Python-Flask</option>
+              <option value="halo-nodejs">Node-JS</option>
+              <option value="halo-spring">Spring-Java</option>
+            </select>
+            </p>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <input type="hidden" name="swagger" id="swagger" value=""/>
+              <p>Project Name:
+            <input name="name" id="name" value=""/>
+              </p>
+            <input id="genBtn" style="width: 170px;" type = "submit" value="Validate & Generate Project"/>
+        </form>
       </div>
     </div>
 
@@ -272,7 +274,6 @@
         }
 
         function load_swagger(ver,swagger_id,cb) {
-            swagger_name = swagger_id;
             swagger_url = '/loc/api?ver='+ver+'&sd_id='+swagger_id+'&cb='+cb;
             //alert(swagger_url);
             const editor1 = SwaggerEditorBundle({
@@ -331,10 +332,13 @@
         alert("Swagger content is empty!");
         return false;
       }
+      swagger_name = document.forms["sForm"]["name"].value
+      if (swagger_name == "") {
+        alert("project name is empty!");
+        return false;
+      }
       var body = JSON.stringify(content)
       document.forms["sForm"]["swagger"].value = body;
-      document.forms["sForm"]["engine"].value = 'halo-flask';
-      document.forms["sForm"]["swagger_name"].value = swagger_name;
     }
 
     function extendClose() {

@@ -110,6 +110,19 @@ class ErrorMixin(AbsBaseMixin):
 #@todo 12 factor
 
 
+class AbsPageMixin(AbsBaseMixin):
+
+    def get_sd_name(self,sd_id,ver='8'):
+        BIAN_CONFIG = None
+        if ver == '8':
+            BIAN_CONFIG = settings.BIAN_CONFIG
+        if ver == '9':
+            BIAN_CONFIG = settings.BIAN_CONFIG9
+        if sd_id in BIAN_CONFIG:
+            return BIAN_CONFIG[sd_id]["name"]
+        raise HaloError("no such id")
+
+
 class EditorMixin(AbsBaseMixin):
 
     def process_get(self, request, vars):
@@ -148,7 +161,7 @@ class ExtendMixin(AbsBaseMixin):
                 return jsonify(ret)
         raise HaloError("no swagger content")
 
-class GenMixin(AbsBaseMixin):
+class GenMixin(AbsPageMixin):
 
     def process_post(self, request, vars):
         if 'swagger' in request.form:
@@ -162,24 +175,10 @@ class GenMixin(AbsBaseMixin):
                 if 'name' in request.form:
                     name = request.form['name']
                 else:
-                    name = 'project'
+                    name = 'halo-project'
                 gen = Gen(swagger, engine,name)
                 return gen.generate()
         raise HaloError("no swagger content")
-
-
-class AbsPageMixin(AbsBaseMixin):
-
-    def get_sd_name(self,sd_id,ver='8'):
-        BIAN_CONFIG = None
-        if ver == '8':
-            BIAN_CONFIG = settings.BIAN_CONFIG
-        if ver == '9':
-            BIAN_CONFIG = settings.BIAN_CONFIG9
-        if sd_id in BIAN_CONFIG:
-            return BIAN_CONFIG[sd_id]["name"]
-        raise HaloError("no such id")
-
 
 class JsonMixin(AbsPageMixin):
 
