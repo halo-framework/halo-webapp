@@ -120,7 +120,13 @@ class EditorMixin(AbsBaseMixin):
                 :return:
                 """
         ret = HaloResponse(HaloRequest(request))
-        html = render_template("editor.html")
+        option_list = []
+        for p in settings.BIAN_CONFIG:
+            item = {}
+            item['opt_id'] = p
+            item['opt_val'] = settings.BIAN_CONFIG[p]['name']
+            option_list.append(item)
+        html = render_template("editor.html",option_list=option_list)
         ret.payload = html
         ret.code = 200
         ret.headers = {}
@@ -177,7 +183,7 @@ class AbsPageMixin(AbsBaseMixin):
 
 class JsonMixin(AbsPageMixin):
 
-    def get_swagger_file_path(self,name,cb='false'):
+    def get_swagger_file_path(self,name,cb=False):
         file_dir = os.path.dirname(__file__)
         fix_name = name.strip().replace("-", "_").replace(" ", "_")
         if cb:
@@ -210,6 +216,9 @@ class JsonMixin(AbsPageMixin):
                             cb = vars['cb']
                             if cb:
                                 name = self.get_sd_name(sd_id,ver)
-                                swagger_file_path = self.get_swagger_file_path(name,cb)
+                                no_seg = True
+                                if cb == 'false':
+                                    no_seg = False
+                                swagger_file_path = self.get_swagger_file_path(name,no_seg)
                                 return send_file(swagger_file_path)
 

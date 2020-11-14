@@ -46,7 +46,6 @@ def generate(config,swagger):
     print('test_cli_base:'+str(arr))
     result = runner.invoke(cl, arr)
     print('r=' + str(result))
-    print("output:" + str(result.output))
     if result.exit_code == 0:
         #print("error:"+str(result.stderr))
         text_files = [f for f in os.listdir(dir_name) if f.endswith('_extend.json')]
