@@ -40,7 +40,7 @@ def generate(config,swagger):
 
     service_name = services[0]
     #arr = ['--debug','-s',config_file_path,'extend', 'swagger','-f', 'fields','-s','halo_credit_charge_card', '-p', dir_name]
-    arr = ['--debug','-s',config_file_path,'extend', 'swagger','-s', service_name, '-p', dir_name,"-a","all"]
+    arr = ['--debug','-s',config_file_path,'extend', 'swagger','-s', service_name, '-p', dir_name,"-f","fields"]
     cl = start(False, arr)
     runner = CliRunner()
     print('test_cli_base:'+str(arr))
