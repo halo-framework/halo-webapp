@@ -40,7 +40,7 @@ def generate(config,swagger):
 
     service_name = services[0]
     #arr = ['--debug','-s',config_file_path,'extend', 'swagger','-f', 'fields','-s','halo_credit_charge_card', '-p', dir_name]
-    arr = ['--debug','-s',config_file_path,'extend', 'swagger','-s', service_name, '-p', dir_name,'-a','all']
+    arr = ['--debug','-s',config_file_path,'extend', 'swagger','-s', service_name, '-p', dir_name,"-a","all"]
     cl = start(False, arr)
     runner = CliRunner()
     print('test_cli_base:'+str(arr))
@@ -49,12 +49,12 @@ def generate(config,swagger):
     if result.exit_code == 0:
         #print("error:"+str(result.stderr))
         text_files = [f for f in os.listdir(dir_name) if f.endswith('_extend.json')]
-        print(text_files)
+        print("text_files:"+str(text_files))
         if len(text_files) == 1:
             extend_file_path = os.path.join(dir_name, text_files[0])
             with open(extend_file_path, "r+") as f:
                 data = f.read()
-                print("finished extend:"+str(data))
+                print("finished extend:")
                 return data
     raise HaloError("extend failed")
 
