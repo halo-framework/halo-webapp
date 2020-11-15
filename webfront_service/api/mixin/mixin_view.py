@@ -176,6 +176,8 @@ class GenMixin(AbsPageMixin):
                     name = request.form['name']
                 else:
                     name = 'halo-project'
+                if not name.isidentifier():
+                    raise HaloError("project name not valid")
                 gen = Gen(swagger, engine,name)
                 return gen.generate()
         raise HaloError("no swagger content")

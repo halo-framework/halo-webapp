@@ -39,7 +39,7 @@ def generate(content,engine,name):
     print(java.lang.System.getProperty('java.class.path'))
     addClassPath("org/openapitools/codegen")
     #from org.openapitools.codegen import OpenAPIGenerator
-    jpype.JClass("org.openapitools.codegen.OpenAPIGenerator").main(['generate', '-g' ,engine, '-i', swagger_file_path,"-o",dir_name])
+    jpype.JClass("org.openapitools.codegen.OpenAPIGenerator").main(['generate', '-g' ,engine, '-i', swagger_file_path,"-o",dir_name,"--package-name",name])
     print("finished generate")
     return Util.build_result(dir_name,name)
 
