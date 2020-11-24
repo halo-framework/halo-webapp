@@ -84,7 +84,7 @@ def error_view(request):
 class ErrorMixin(AbsBaseMixin):
 
     def process_get(self, request, vars):
-        ret = HaloResponse(HaloRequest(request))
+        ret = HaloResponse(HaloRequest(request.path,vars,request.headers))
         html = render_template("500.html")
         ret.payload = html
         ret.code = 200
@@ -132,7 +132,7 @@ class EditorMixin(AbsBaseMixin):
                 :param vars:
                 :return:
                 """
-        ret = HaloResponse(HaloRequest(request))
+        ret = HaloResponse(HaloRequest(request.path,vars,request.headers))
         option_list = []
         for p in settings.BIAN_CONFIG:
             item = {}
@@ -203,7 +203,7 @@ class JsonMixin(AbsPageMixin):
         :param vars:
         :return:
         """
-        ret = HaloResponse(HaloRequest(request))
+        ret = HaloResponse(HaloRequest(request.path,vars,request.headers))
         response_html = "generation failed. please try again"
         name = None
         headers = {}

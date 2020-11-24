@@ -32,7 +32,7 @@ settings = settingsx()
 logger = logging.getLogger(__name__)
 
 class AbsBaseLinkX(AbsBaseLinkY,MethodView):
-	def process(self, args):
+	def process(self,method,args,headers):
 		"""
         Return a list of all users.
         """
@@ -56,7 +56,7 @@ class AbsBaseLinkX(AbsBaseLinkY,MethodView):
 
 class AbsBaseLink(AbsBaseLinkX):
 	def get(self):
-		ret = super(AbsBaseLink, self).do_process( request.args)
+		ret = super(AbsBaseLink, self).do_process(request.path,request.args,request.headers)
 		if ret and hasattr(ret, "code"):
 			if ret.code == 200 and hasattr(ret, "type") and ret.type == "html":
 				return ret.payload
@@ -69,7 +69,7 @@ class AbsBaseLink(AbsBaseLinkX):
 		data_dict = dict(request.args)
 		data = request.get_json()
 		data_dict['body'] = data
-		ret = self.do_process(data_dict )
+		ret = self.do_process(request.path,data_dict,request.headers)
 		if ret and hasattr(ret, "code"):
 			if ret.code == 200 and hasattr(ret, "type") and ret.type == "html":
 				return ret.payload
