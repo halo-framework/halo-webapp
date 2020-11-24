@@ -1,3 +1,3 @@
 """Main application package."""
 
-__version__ = '0.11.08'
+__version__ = '0.11.09'
