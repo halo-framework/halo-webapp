@@ -112,14 +112,16 @@ class ErrorMixin(AbsBaseMixin):
 
 class AbsPageMixin(AbsBaseMixin):
 
-    def get_sd_name(self,sd_id,ver='8'):
-        BIAN_CONFIG = None
-        if ver == '8':
-            BIAN_CONFIG = settings.BIAN_CONFIG
-        if ver == '9':
-            BIAN_CONFIG = settings.BIAN_CONFIG9
+    def get_sd_name(self,sd_id,ver=settings.BIAN_DEFAULT_VER):
+        BIAN_CONFIG = settings.BIAN_CONFIG[ver]
         if sd_id in BIAN_CONFIG:
             return BIAN_CONFIG[sd_id]["name"]
+        raise HaloError("no such id")
+
+    def get_json_name(self,sd_id,ver=settings.BIAN_DEFAULT_VER):
+        BIAN_CONFIG = settings.BIAN_CONFIG[settings.BIAN9]
+        if sd_id in BIAN_CONFIG:
+            return BIAN_CONFIG[sd_id]["f_name"]
         raise HaloError("no such id")
 
 
@@ -134,10 +136,10 @@ class EditorMixin(AbsBaseMixin):
                 """
         ret = HaloResponse(HaloRequest(request.path,vars,request.headers))
         option_list = []
-        for p in settings.BIAN_CONFIG:
+        for p in settings.BIAN_CONFIG[settings.BIAN_DEFAULT_VER]:
             item = {}
             item['opt_id'] = p
-            item['opt_val'] = settings.BIAN_CONFIG[p]['name']
+            item['opt_val'] = settings.BIAN_CONFIG[settings.BIAN_DEFAULT_VER][p]['name']
             option_list.append(item)
         html = render_template("editor.html",option_list=option_list)
         ret.payload = html
@@ -184,13 +186,23 @@ class GenMixin(AbsPageMixin):
 
 class JsonMixin(AbsPageMixin):
 
-    def get_swagger_file_path(self,name,cb=False):
+    def get_swagger_file_path_old(self,name,cb=False):
         file_dir = os.path.dirname(__file__)
-        fix_name = name.strip().replace("-", "_").replace(" ", "_")
         if cb:
-            path = os.path.join(file_dir, '..', '..', '..', 'env', 'config', 'BIANV8X', name + ".json")
+            path = os.path.join(file_dir, '..', '..', '..', 'env', 'config', 'BIANV9', name + ".json")
         else:
             path = os.path.join(file_dir, '..', '..', '..', 'env', 'config', 'BIANV8', name + ".json")
+        clean_path = ''.join(c for c in path if c.isprintable())
+        if not os.path.exists(clean_path):
+            raise NoSuchPathException(clean_path)
+        return clean_path
+
+    def get_swagger_file_path(self,name,ver):
+        file_dir = os.path.dirname(__file__)
+        if ver == settings.BIAN9:
+            path = os.path.join(file_dir, '..', '..', '..', 'env', 'config', 'BIANV9', name + ".json")
+        else:
+            path = os.path.join(file_dir, '..', '..', '..', 'env', 'config', 'BIANV10', name + ".json")
         clean_path = ''.join(c for c in path if c.isprintable())
         if not os.path.exists(clean_path):
             raise NoSuchPathException(clean_path)
@@ -216,10 +228,12 @@ class JsonMixin(AbsPageMixin):
                         if 'cb' in vars:
                             cb = vars['cb']
                             if cb:
-                                name = self.get_sd_name(sd_id,ver)
+                                #name = self.get_sd_name(sd_id,ver)
+                                name = self.get_json_name(sd_id,ver)
                                 no_seg = True
                                 if cb == 'false':
                                     no_seg = False
-                                swagger_file_path = self.get_swagger_file_path(name,no_seg)
+                                #swagger_file_path = self.get_swagger_file_path(name,no_seg)
+                                swagger_file_path = self.get_swagger_file_path(name, ver)
                                 return send_file(swagger_file_path)
 

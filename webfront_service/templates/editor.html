@@ -65,16 +65,12 @@
         <span id="span1" class="close">&times;</span>
           <p>select BIAN API version:
           <select name="bianApiVer" id="bianApiVer">
-              <option value="8">8</option>
-              <option value="9">9</option>
+              <option value="bian9">9</option>
+              <option value="bian10">10</option>
             </select>
         </p>
         <p>select BIAN Swagger file:
           <select class="js-example-basic-single" name="mySelect1" id="mySelect1">
-              <option value="290">advertising</option>
-              <option value="444">Current Account</option>
-              <option value="864">Servicing Event History</option>
-              <option value="1328">credit charge card</option>
               {% for o in option_list %}
                     <option value="{{ o.opt_id }}">{{ o.opt_val }}</option>
               {% endfor %}
