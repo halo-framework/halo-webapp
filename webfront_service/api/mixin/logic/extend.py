@@ -56,7 +56,7 @@ def generate(config,swagger):
                 data = f.read()
                 print("finished extend:")
                 return data
-    raise HaloError("extend failed")
+    raise HaloError("extend failed:"+result.output)
 
 class Extend(AbsBaseClass):
     def __init__(self,config,swagger):

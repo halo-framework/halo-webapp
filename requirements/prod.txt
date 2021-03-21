@@ -47,7 +47,7 @@ python-json-logger==0.1.9
 PyJWT==1.6.3
 jsonschema==3.2.0
 halo-app==0.10.8
-halo-cli==0.2.8
+halo-cli==0.2.9
 Flask-RESTful==0.3.6
 six==1.11.0
 swagger-py-codegen==0.4.0
