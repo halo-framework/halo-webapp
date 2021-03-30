@@ -119,7 +119,7 @@ class AbsPageMixin(AbsBaseMixin):
         raise HaloError("no such id")
 
     def get_json_name(self,sd_id,ver=settings.BIAN_DEFAULT_VER):
-        BIAN_CONFIG = settings.BIAN_CONFIG[settings.BIAN9]
+        BIAN_CONFIG = settings.BIAN_CONFIG[settings.BIAN_DEFAULT_VER]
         if sd_id in BIAN_CONFIG:
             return BIAN_CONFIG[sd_id]["f_name"]
         raise HaloError("no such id")
@@ -199,10 +199,7 @@ class JsonMixin(AbsPageMixin):
 
     def get_swagger_file_path(self,name,ver):
         file_dir = os.path.dirname(__file__)
-        if ver == settings.BIAN9:
-            path = os.path.join(file_dir, '..', '..', '..', 'env', 'config', 'BIANV9', name + ".json")
-        else:
-            path = os.path.join(file_dir, '..', '..', '..', 'env', 'config', 'BIANV10', name + ".json")
+        path = os.path.join(file_dir, '..', '..', '..', 'env', 'config', ver, name + ".json")
         clean_path = ''.join(c for c in path if c.isprintable())
         if not os.path.exists(clean_path):
             raise NoSuchPathException(clean_path)

@@ -14,11 +14,12 @@ env = Env()
 #add your vars below
 
 BIAN9 = "bian9"
+BIAN91 = "bian91"
 BIAN10 = "bian10"
-BIAN_VERS = [BIAN9,BIAN10]
+BIAN_VERS = [BIAN9,BIAN91,BIAN10]
 BIAN_CONFIG = None
 BIAN_SETTINGS = 'bian_settings.json'
-BIAN_DEFAULT_VER = BIAN9
+BIAN_DEFAULT_VER = BIAN91
 file_dir = os.path.dirname(__file__)
 file_path = os.path.join(file_dir,'..','..','env', BIAN_SETTINGS)
 if os.path.exists(file_path):
