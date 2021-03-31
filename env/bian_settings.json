@@ -3136,7 +3136,5 @@
 "183": {                 "f_name": "TransactionAuthorization",                 "name": "TransactionAuthorization",                 "service_domain": true,                 "swagger": true             },
 "184": {                 "f_name": "TransactionEngine",                 "name": "TransactionEngine",                 "service_domain": true,                 "swagger": true             },
 "185": {                 "f_name": "Underwriting",                 "name": "Underwriting",                 "service_domain": true,                 "swagger": true             }
-  },
-  "bian10": {
   }
 }

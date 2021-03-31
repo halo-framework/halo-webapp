@@ -119,8 +119,7 @@
           <p>select BIAN API version:
           <select name="bianApiVer" id="bianApiVer" onchange="getBianFiles(this)">
               <option value="bian9">9</option>
-              <option value="bian91">9.1</option>
-              <option value="bian10">10</option>
+              <option value="bian91" SELECTED>9.1</option>
             </select>
         </p>
         <p>select BIAN Swagger file:
@@ -131,7 +130,7 @@
             </select>
             <p/>
             <input type="checkbox" id="noseg" name="noseg" value="noseg">
-            <label for="noseg">No Command Query Responsibility Segregation Format</label><br>
+            <label for="noseg">No Cache Format</label><br>
             <p/>
             <button id="loadBtn" style="width: 170px;" onclick="loadClose()">Load Swagger</button>
         </p>
