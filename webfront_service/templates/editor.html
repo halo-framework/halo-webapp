@@ -42,7 +42,60 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script>
+  function getBianFiles(selectObject) {
+      var value = selectObject.value;
+      console.log(value);
+      //alert(value)
+      get_files(value)
+    }
 
+    function get_files(ver) {
+            url = '/loc/list?ver='+ver;
+            //alert(" swgr:"+swagger);
+            $.ajax({
+               url: url,
+               type: 'get',
+               dataType: 'text',
+               contentType: 'application/json',
+               success: function(response){
+                  post_get_files(response)
+               },
+               error:function(response){
+                  alert("request failed");
+               }
+            });
+        }
+
+    function post_get_files(data) {
+        try {
+           content  = JSON.parse(data)
+          } catch(e) {
+            content = data
+          }
+        //content = $.parseJSON(data);
+        select = document.getElementById("fileSelect");
+        if (content) {
+            var length = select.options.length;
+            for (i = length-1; i >= 0; i--) {
+              select.options[i] = null;
+            }
+            for (var i = 0; i < content.length; i++) {
+            //$.each(content, function (index, value) {
+                var opt = document.createElement('option');
+                var v = content[i];
+                //alert(v)
+                opt.value = v.opt_id;
+                opt.innerHTML = v.opt_val;
+                select.appendChild(opt);
+            }
+            //});
+
+        } else {
+            alert("error loading files")
+        }
+    }
+</script>
 </head>
 
 <body>
@@ -64,14 +117,14 @@
       <div class="modalx-content">
         <span id="span1" class="close">&times;</span>
           <p>select BIAN API version:
-          <select name="bianApiVer" id="bianApiVer">
+          <select name="bianApiVer" id="bianApiVer" onchange="getBianFiles(this)">
               <option value="bian9">9</option>
               <option value="bian91">9.1</option>
               <option value="bian10">10</option>
             </select>
         </p>
         <p>select BIAN Swagger file:
-          <select class="js-example-basic-single" name="mySelect1" id="mySelect1">
+          <select class="js-example-basic-single" name="fileSelect" id="fileSelect">
               {% for o in option_list %}
                     <option value="{{ o.opt_id }}">{{ o.opt_val }}</option>
               {% endfor %}
@@ -261,7 +314,7 @@
                 alert("Please select bian version first!");
                 return
             }
-            sd = $('#mySelect1 :selected');
+            sd = $('#fileSelect :selected');
             cb = false;
             if($("#noseg").is(':checked'))
                 cb = true;

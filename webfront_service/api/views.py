@@ -83,9 +83,10 @@ class ErrorLink(ErrorMixin,AbsBaseLink):
 	pass
 
 class EditorLink(EditorMixin,AbsBaseLink):
-	def process1(self, vars=None):
-		print('in')
-		return None
+	pass
+
+class ListLink(ListMixin,AbsBaseLink):
+	pass
 
 class ExtendLink(ExtendMixin,AbsBaseLink):
 	pass

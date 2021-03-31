@@ -127,6 +127,15 @@ class AbsPageMixin(AbsBaseMixin):
 
 class EditorMixin(AbsBaseMixin):
 
+    def get_option_list(self,ver=settings.BIAN_DEFAULT_VER):
+        option_list = []
+        for p in settings.BIAN_CONFIG[ver]:
+            item = {}
+            item['opt_id'] = p
+            item['opt_val'] = settings.BIAN_CONFIG[ver][p]['name']
+            option_list.append(item)
+        return option_list
+
     def process_get(self, request, vars):
         """
 
@@ -135,18 +144,26 @@ class EditorMixin(AbsBaseMixin):
                 :return:
                 """
         ret = HaloResponse(HaloRequest(request.path,vars,request.headers))
-        option_list = []
-        for p in settings.BIAN_CONFIG[settings.BIAN_DEFAULT_VER]:
-            item = {}
-            item['opt_id'] = p
-            item['opt_val'] = settings.BIAN_CONFIG[settings.BIAN_DEFAULT_VER][p]['name']
-            option_list.append(item)
+        option_list = self.get_option_list()
         html = render_template("editor.html",option_list=option_list)
         ret.payload = html
         ret.code = 200
         ret.headers = {}
         ret.type = "html"
         return ret
+
+class ListMixin(EditorMixin):
+
+    def process_get(self, request, vars):
+        if 'ver' in vars:
+            ver = vars['ver']
+        else:
+            ver = settings.BIAN_DEFAULT_VER
+        option_list = self.get_option_list(ver)
+        if option_list:
+            print(option_list)
+            return jsonify(option_list)
+        raise HaloError("no content")
 
 class ExtendMixin(AbsBaseMixin):
 
