@@ -119,7 +119,7 @@ class AbsPageMixin(AbsBaseMixin):
         raise HaloError("no such id")
 
     def get_json_name(self,sd_id,ver=settings.BIAN_DEFAULT_VER):
-        BIAN_CONFIG = settings.BIAN_CONFIG[settings.BIAN_DEFAULT_VER]
+        BIAN_CONFIG = settings.BIAN_CONFIG[ver]
         if sd_id in BIAN_CONFIG:
             return BIAN_CONFIG[sd_id]["f_name"]
         raise HaloError("no such id")
