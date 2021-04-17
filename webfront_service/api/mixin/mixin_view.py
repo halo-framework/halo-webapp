@@ -214,9 +214,14 @@ class JsonMixin(AbsPageMixin):
             raise NoSuchPathException(clean_path)
         return clean_path
 
-    def get_swagger_file_path(self,name,ver):
+    def get_swagger_file_path(self,name,ver,lite=None):
         file_dir = os.path.dirname(__file__)
-        path = os.path.join(file_dir, '..', '..', '..', 'env', 'config', ver, name + ".json")
+        the_ver = ver
+        the_name = name
+        if lite:
+            the_ver = ver+"l"
+            the_name = name+"_lite"
+        path = os.path.join(file_dir, '..', '..', '..', 'env', 'config', the_ver, the_name + ".json")
         clean_path = ''.join(c for c in path if c.isprintable())
         if not os.path.exists(clean_path):
             raise NoSuchPathException(clean_path)
