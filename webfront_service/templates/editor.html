@@ -318,15 +318,18 @@
             }
             sd = $('#fileSelect :selected');
             cb = false;
+            lite = false;
             if($("#noseg").is(':checked'))
                 cb = true;
+            if($("#lite").is(':checked'))
+                lite = true;
             modal1.style.display = "none";
             //alert("sd:"+sd.text()+" cb:"+cb+' ver:'+ver.val());
-            load_swagger(ver.val(),sd.val(),cb);
+            load_swagger(ver.val(),sd.val(),cb,lite);
         }
 
-        function load_swagger(ver,swagger_id,cb) {
-            swagger_url = '/loc/api?ver='+ver+'&sd_id='+swagger_id+'&cb='+cb;
+        function load_swagger(ver,swagger_id,cb,lite) {
+            swagger_url = '/loc/api?ver='+ver+'&sd_id='+swagger_id+'&cb='+cb+'&lite='+lite;
             //alert(swagger_url);
             const editor1 = SwaggerEditorBundle({
               dom_id: '#swagger-editor',
@@ -355,7 +358,12 @@
                   post_extend(response)
                },
                error:function(response){
-                  alert("extend failed");
+                  try {
+                   content  = JSON.parse(response)
+                  } catch(e) {
+                    content = response
+                  }
+                  alert("extend failed:");
                }
             });
         }

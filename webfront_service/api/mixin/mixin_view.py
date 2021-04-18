@@ -177,6 +177,7 @@ class ExtendMixin(AbsBaseMixin):
             if config and swagger:
                 extend = Extend(config,swagger)
                 ret = extend.generate()
+                print("extend ret:"+str(ret))
                 return jsonify(ret)
         raise HaloError("no swagger content")
 
@@ -214,7 +215,7 @@ class JsonMixin(AbsPageMixin):
             raise NoSuchPathException(clean_path)
         return clean_path
 
-    def get_swagger_file_path(self,name,ver,lite=None):
+    def get_swagger_file_path(self,name,ver,lite=False):
         file_dir = os.path.dirname(__file__)
         the_ver = ver
         the_name = name
@@ -252,7 +253,13 @@ class JsonMixin(AbsPageMixin):
                                 no_seg = True
                                 if cb == 'false':
                                     no_seg = False
+                                if 'lite' in vars:
+                                    lite = vars['lite']
+                                    if lite == 'false':
+                                        lite_var = False
+                                    else:
+                                        lite_var = True
                                 #swagger_file_path = self.get_swagger_file_path(name,no_seg)
-                                swagger_file_path = self.get_swagger_file_path(name, ver)
+                                swagger_file_path = self.get_swagger_file_path(name, ver,lite_var)
                                 return send_file(swagger_file_path)
 
